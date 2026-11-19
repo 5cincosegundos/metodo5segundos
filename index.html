@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Método 5 Segundos · Séries animadas virais com IA</title>
+<meta name="description" content="O método por trás do canal 5 Segundos: 2 milhões de visualizações sem aparecer, sem desenhar e sem editar. Você manda 1 arquivo pro Claude e ele faz o vídeo.">
+<meta property="og:title" content="Método 5 Segundos · Séries animadas virais com IA">
+<meta property="og:description" content="2 milhões de visualizações. Sem aparecer. Sem desenhar. Sem editar.">
+<meta property="og:image" content="assets/capa.jpg">
+<meta name="theme-color" content="#0b0b10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b10; --bg2:#13131b; --card:#1a1a24; --line:#2a2a37;
+  --tx:#f3f3f7; --mut:#a9a9b8; --yel:#ffd600; --red:#e8282c; --grn:#16b36e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.imp{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:.5px;text-transform:uppercase;line-height:1.02}
+h2.imp{font-size:clamp(30px,6vw,46px);margin:0 0 18px}
+.kick{font-family:Anton,Impact,sans-serif;color:var(--red);letter-spacing:2px;font-size:15px;margin-bottom:8px;text-transform:uppercase}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.y{color:var(--yel)} .r{color:var(--red)} .g{color:var(--grn)}
+
+/* topo */
+.bar{position:sticky;top:0;z-index:20;background:var(--red);color:#fff;text-align:center;font-weight:800;font-size:14px;padding:9px 12px}
+.bar b{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:1px;font-size:16px}
+.logo{display:flex;align-items:center;gap:10px;padding:18px 0}
+.ring{width:42px;height:42px;border-radius:50%;border:5px solid #3a3a46;border-top-color:var(--red);border-right-color:var(--red);border-bottom-color:var(--red);display:grid;place-items:center;font-family:Anton,Impact,sans-serif;color:var(--yel);font-size:22px;background:#08080c}
+.logo span{font-family:Anton,Impact,sans-serif;letter-spacing:2px;font-size:18px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;padding:20px 0 64px}
+.hero h1{font-size:clamp(40px,8vw,76px);margin:0 0 18px}
+.hero p.sub{font-size:clamp(18px,2.4vw,21px);color:#d9d9e3;margin:0 0 26px}
+.phone{position:relative;border-radius:34px;padding:10px;background:#16161f;border:2px solid #34343f;box-shadow:0 30px 80px rgba(232,40,44,.25),0 10px 30px rgba(0,0,0,.6);max-width:330px;margin:0 auto}
+.phone video{border-radius:26px;width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}
+.badge{position:absolute;top:22px;right:-14px;background:var(--red);color:#fff;font-family:Anton,Impact,sans-serif;font-size:20px;padding:8px 14px;border-radius:10px;transform:rotate(6deg);box-shadow:0 8px 20px rgba(0,0,0,.5)}
+.cta{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--grn);color:#fff;text-decoration:none;font-weight:800;font-size:19px;padding:17px 30px;border-radius:14px;box-shadow:0 10px 30px rgba(22,179,110,.35);transition:transform .15s}
+.cta:hover{transform:translateY(-2px)}
+.cta small{font-weight:600;font-size:13px;opacity:.9}
+.price-line{margin-top:14px;color:var(--mut);font-size:15px}
+.price-line s{color:#888}
+.price-line b{color:var(--tx)}
+
+/* contagem */
+.count{display:flex;gap:10px;margin:22px 0 0}
+.count div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 0;width:74px;text-align:center}
+.count b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:30px;color:var(--yel);line-height:1.1}
+.count span{font-size:12px;color:var(--mut)}
+.count-label{font-size:13px;color:var(--mut);margin-top:18px}
+
+/* números */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px}
+.stat .n{font-family:Anton,Impact,sans-serif;font-size:clamp(42px,7vw,60px);color:var(--yel);line-height:1}
+.stat p{margin:8px 0 0;color:var(--mut)}
+
+/* galeria */
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:30px}
+.strip img{border-radius:14px;aspect-ratio:9/16;object-fit:cover;width:100%;border:1px solid var(--line)}
+
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+.step .num{font-family:Anton,Impact,sans-serif;font-size:56px;color:var(--red);line-height:1}
+.step h3{margin:10px 0 6px;font-size:20px}
+.step p{margin:0;color:var(--mut)}
+.prompt{overflow-wrap:anywhere;margin-top:22px;background:#07070a;border:1px solid var(--line);border-radius:14px;padding:18px 20px;font-family:Consolas,Menlo,monospace;font-size:16px}
+.prompt small{display:block;font-family:Anton,Impact,sans-serif;color:var(--yel);letter-spacing:1px;font-size:13px;margin-bottom:6px}
+
+/* lista */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.checks{list-style:none;padding:0;margin:0}
+.checks li{padding:10px 0 10px 38px;position:relative;border-bottom:1px solid var(--line)}
+.checks li:before{content:"";position:absolute;left:0;top:13px;width:24px;height:24px;border-radius:50%;background:var(--grn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pair img{border-radius:16px;border:1px solid var(--line)}
+
+/* oferta */
+.offer{background:linear-gradient(180deg,#1b1b26,#121219);border:2px solid var(--yel);border-radius:26px;padding:40px 30px;text-align:center;max-width:620px;margin:0 auto;box-shadow:0 20px 60px rgba(255,214,0,.08)}
+.offer img{width:170px;border-radius:16px;margin:0 auto 18px}
+.offer .old{color:var(--mut);font-size:18px}
+.offer .old s{color:#9a9aa8}
+.offer .new{font-family:Anton,Impact,sans-serif;font-size:clamp(54px,11vw,82px);color:var(--yel);line-height:1;margin:6px 0}
+.offer .parc{color:#d9d9e3;margin-bottom:22px}
+.offer ul{list-style:none;padding:0;margin:0 0 26px;text-align:left;display:inline-block}
+.offer ul li{padding:9px 0 9px 38px}
+.coupon{display:inline-block;border:2px dashed var(--yel);color:var(--yel);font-family:Anton,Impact,sans-serif;letter-spacing:2px;padding:6px 14px;border-radius:10px;margin-bottom:14px}
+
+.guarantee{display:flex;gap:18px;align-items:center;max-width:620px;margin:28px auto 0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.seal{flex:0 0 78px;height:78px;border-radius:50%;background:var(--grn);display:grid;place-items:center;font-family:Anton,Impact,sans-serif;font-size:30px;color:#fff;line-height:.9;text-align:center}
+.seal small{display:block;font-size:12px}
+
+/* faq */
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:800;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";float:right;color:var(--yel);font-size:22px;line-height:1}
+details[open] summary:after{content:"–"}
+details p{margin:12px 0 0;color:var(--mut)}
+
+.for{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+.box h3{margin:0 0 10px;font-size:20px}
+.box ul{margin:0;padding-left:20px;color:#d9d9e3}
+.box li{margin-bottom:6px}
+
+footer{padding:40px 0 110px;color:#77778a;font-size:13px;border-top:1px solid var(--line)}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(11,11,16,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 16px;display:none}
+.sticky .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sticky .p{font-size:14px;color:var(--mut)} .sticky .p b{color:var(--yel);font-size:18px}
+.sticky .cta{padding:12px 20px;font-size:16px}
+
+@media (max-width:820px){
+  body{font-size:16px}
+  section{padding:56px 0}
+  .hero{grid-template-columns:1fr;gap:34px;padding-top:6px;text-align:center}
+  .hero h1{font-size:clamp(30px,9.4vw,44px)}
+  .bar{font-size:12px}.bar b{font-size:14px}
+  .count div{width:66px}
+  .offer{padding:32px 18px}
+  .offer ul{display:block}
+  .hero .count{justify-content:center}
+  .phone{max-width:260px}
+  .badge{right:-6px}
+  .stats,.steps,.for{grid-template-columns:1fr}
+  .strip{grid-template-columns:repeat(3,1fr)}
+  .two{grid-template-columns:1fr;gap:26px}
+  .cta{width:100%}
+  .sticky{display:block}
+  .sticky .cta{width:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">🎄 CUPOM DE LANÇAMENTO: <b>50% OFF</b> SÓ ATÉ 25/12 ÀS 23H59</div>
+
+<div class="wrap">
+  <div class="logo"><div class="ring">5</div><span>MÉTODO 5 SEGUNDOS</span></div>
+
+  <div class="hero">
+    <div>
+      <div class="kick">Séries animadas virais com IA</div>
+      <h1 class="imp">2 milhões de views.<br><span class="y">Sem aparecer.</span><br>Sem desenhar.<br>Sem editar.</h1>
+      <p class="sub">O método completo por trás do canal 5 Segundos. Você manda <b>1 arquivo</b> pro Claude, e ele faz o vídeo inteiro: roteiro, voz, personagens, animação, legendas e música.</p>
+      <a class="cta" href="https://pay.hotmart.com/D108576979A?offDiscount=LANCAMENTO5">QUERO O MÉTODO COM 50% OFF<small>acesso imediato · garantia de 7 dias</small></a>
+      <div class="price-line">De <s>R$ 97</s> por <b>R$ 48,50</b> à vista ou 12x de R$ 5,02</div>
+      <div class="count-label">O cupom expira em:</div>
+      <div class="count" id="count">
+        <div><b id="d">--</b><span>dias</span></div>
+        <div><b id="h">--</b><span>horas</span></div>
+        <div><b id="m">--</b><span>min</span></div>
+        <div><b id="s">--</b><span>seg</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="phone">
+        <video src="assets/pix.mp4" poster="assets/pix_poster.jpg" autoplay muted loop playsinline></video>
+        <div class="badge">+2 MILHÕES</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="kick">A prova</div>
+    <h2 class="imp">Um perfil novo. <span class="y">Dois dias.</span></h2>
+    <p style="color:var(--mut);max-width:680px;margin:0 0 28px">A primeira série do canal, "O Pix de 1 Milhão", foi feita 100% com esse método. Sem rosto, sem banco de imagens, sem programa de edição.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">2 mi</div><p>visualizações no primeiro vídeo (Instagram)</p></div>
+      <div class="stat"><div class="n">10,5 mil</div><p>seguidores nos primeiros 2 dias</p></div>
+      <div class="stat"><div class="n">150 mil</div><p>views na parte 2, no primeiro dia</p></div>
+    </div>
+    <div class="strip">
+      <img src="assets/c01.jpg" alt="Cena da série: contador de brasileiros com 1 milhão" loading="lazy">
+      <img src="assets/c02.jpg" alt="Cena: tela do Pix de 1 milhão" loading="lazy">
+      <img src="assets/c06.jpg" alt="Cena: o porteiro na padaria" loading="lazy">
+      <img src="assets/c09.jpg" alt="Cena: CPF suspenso" loading="lazy">
+      <img src="assets/c12.jpg" alt="Cena: fuga pela escada de incêndio" loading="lazy">
+      <img src="assets/d3.jpg" alt="Cartão de decisão: comente A ou B" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two">
+    <div>
+      <div class="kick">O formato</div>
+      <h2 class="imp">O público decide <span class="y">o que acontece</span></h2>
+      <p>Séries curtas de 6 partes. Cada parte termina num dilema: <b>"Você tem 5 segundos. A ou B?"</b> O público vota nos comentários, e a parte seguinte começa com o resultado.</p>
+      <p style="color:var(--mut)">Quem comenta volta no dia seguinte pra ver se a escolha venceu, e segue o perfil pra não perder. Comentário, retenção e seguidor: tudo o que o algoritmo ama, num formato só.</p>
+    </div>
+    <div class="pair">
+      <img src="assets/d3.jpg" alt="Fim de cada parte: o cartão de decisão" loading="lazy">
+      <img src="assets/voto.jpg" alt="Começo da parte seguinte: o resultado real da votação" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kick">Como funciona</div>
+    <h2 class="imp">Simples assim: <span class="y">3 passos</span></h2>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Instale o Claude</h3><p>O app do Claude no computador. O plano Pro, o mais barato com o Claude Code, já basta.</p></div>
+      <div class="step"><div class="num">2</div><h3>Coloque o arquivo</h3><p>Crie uma pasta pro seu canal e coloque nela o arquivo do Método 5 Segundos.</p></div>
+      <div class="step"><div class="num">3</div><h3>Mande começar</h3><p>Escreva uma frase. O Claude te guia, etapa por etapa, até o vídeo pronto pra postar.</p></div>
+    </div>
+    <div class="prompt"><small>A ÚNICA COISA QUE VOCÊ ESCREVE</small>Leia o arquivo do Método 5 Segundos e começa.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two">
+    <div class="pair">
+      <img src="assets/c11.jpg" alt="Tela de celular desenhada com o Pix e as regras" loading="lazy">
+      <img src="assets/c16.jpg" alt="Cena final da série" loading="lazy">
+    </div>
+    <div>
+      <div class="kick">O que o Claude faz por você</div>
+      <h2 class="imp">Um estúdio inteiro <span class="y">no seu computador</span></h2>
+      <ul class="checks">
+        <li>Sugere a premissa e planeja a série inteira</li>
+        <li>Escreve o roteiro na fórmula que viralizou</li>
+        <li>Gera a narração, com opção de <b>voz grátis</b></li>
+        <li>Desenha personagens que ficam iguais em todas as cenas</li>
+        <li>Anima, coloca legendas, música e efeitos</li>
+        <li>Revisa o vídeo antes de te entregar</li>
+        <li>Escreve as legendas de postagem e monta o vídeo longo pro YouTube</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kick">Pra quem é</div>
+    <h2 class="imp">Esse método é <span class="y">pra você</span> se…</h2>
+    <div class="for">
+      <div class="box"><h3 class="g">✓ É pra você</h3><ul><li>Quer um canal sem mostrar o rosto</li><li>Não sabe desenhar, editar nem programar</li><li>Quer um formato com cara própria, e não mais um canal de cortes</li><li>Topa postar com constância</li></ul></div>
+      <div class="box"><h3 class="r">✕ Não é pra você</h3><ul><li>Procura dinheiro garantido sem esforço</li><li>Não tem um computador (Windows ou Mac)</li><li>Não quer assinar o plano Pro do Claude</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="oferta">
+  <div class="wrap">
+    <div class="offer">
+      <img src="assets/capa.jpg" alt="Capa do Método 5 Segundos">
+      <div class="coupon">CUPOM LANCAMENTO5</div>
+      <div class="old">De <s>R$ 97,00</s> por apenas</div>
+      <div class="new">R$ 48,50</div>
+      <div class="parc">à vista, ou 12x de R$ 5,02</div>
+      <ul class="checks">
+        <li><b>O arquivo do Método 5 Segundos</b>: o Claude te guia do zero ao vídeo</li>
+        <li><b>Guia completo em PDF</b> (25 páginas, com as cenas reais)</li>
+        <li><b>Voz grátis inclusa</b>, sem conta e sem cartão</li>
+        <li><b>Extra:</b> a série "O Pix de 1 Milhão" completa (bíblia, votos e 6 roteiros)</li>
+      </ul>
+      <a class="cta" href="https://pay.hotmart.com/D108576979A?offDiscount=LANCAMENTO5">QUERO COM 50% OFF<small>pagamento seguro pela Hotmart · acesso imediato</small></a>
+      <div class="price-line">O desconto acaba em 25/12 às 23h59. Depois, R$ 97.</div>
+    </div>
+    <div class="guarantee">
+      <div class="seal">7<small>DIAS</small></div>
+      <div><b>Garantia incondicional de 7 dias.</b><br><span style="color:var(--mut)">Não gostou? Peça o reembolso pela própria Hotmart em até 7 dias, sem precisar explicar nada.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:760px">
+    <div class="kick">Dúvidas</div>
+    <h2 class="imp">Perguntas frequentes</h2>
+    <details><summary>Preciso saber programar?</summary><p>Não. Você manda um arquivo e escreve uma frase. O Claude escreve todo o código e te guia em cada passo. Você só aprova e pede ajustes.</p></details>
+    <details><summary>Preciso pagar pela voz?</summary><p>Não. O método usa uma voz de IA gratuita, de licença aberta e liberada pra uso comercial. Se quiser mais qualidade depois, o guia mostra como usar o ElevenLabs.</p></details>
+    <details><summary>Qual plano do Claude eu preciso?</summary><p>O Pro, o plano mais barato que inclui o Claude Code, já é suficiente. Se o limite de uso acabar no meio de um vídeo, ele se renova em poucas horas e o Claude continua de onde parou.</p></details>
+    <details><summary>Funciona no celular?</summary><p>A produção é feita no computador (Windows ou Mac). A postagem, você faz de onde preferir.</p></details>
+    <details><summary>Quanto tempo leva pra fazer um vídeo?</summary><p>A primeira série leva mais tempo, porque é quando os personagens são criados. Depois, cada parte leva cerca de 1 hora, e a maior parte é o computador trabalhando sozinho.</p></details>
+    <details><summary>Vou ter os mesmos resultados?</summary><p>Ninguém pode garantir visualizações: elas dependem do seu conteúdo, da sua constância e do algoritmo. O que você recebe é exatamente o processo que gerou os números do canal 5 Segundos.</p></details>
+    <details><summary>Como recebo o acesso?</summary><p>Logo depois do pagamento, a Hotmart te manda o acesso por e-mail. O guia e o arquivo do método ficam pra download na área do aluno.</p></details>
+  </div>
+</section>
+
+<section style="text-align:center">
+  <div class="wrap">
+    <div class="ring" style="width:64px;height:64px;font-size:34px;margin:0 auto 18px;border-width:7px">5</div>
+    <h2 class="imp">Você tem <span class="y">5 segundos.</span><br>Começa agora ou deixa pra depois?</h2>
+    <a class="cta" style="margin-top:14px" href="https://pay.hotmart.com/D108576979A?offDiscount=LANCAMENTO5">QUERO O MÉTODO POR R$ 48,50<small>cupom válido até 25/12 às 23h59</small></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    © 5 Segundos. Os números citados são do canal 5 Segundos e não são garantia de resultado.<br>
+    Claude é marca da Anthropic e ElevenLabs é marca da ElevenLabs. Este produto não tem vínculo com essas empresas. Pagamento processado pela Hotmart.
+  </div>
+</footer>
+
+<div class="sticky"><div class="in"><div class="p">Cupom 50% OFF<br><b>R$ 48,50</b></div><a class="cta" href="https://pay.hotmart.com/D108576979A?offDiscount=LANCAMENTO5">QUERO AGORA</a></div></div>
+
+<script>
+(function(){
+  var end = new Date('2026-12-25T23:59:00-03:00').getTime();
+  function pad(n){return n<10?'0'+n:''+n}
+  function tick(){
+    var t = Math.max(0, end - Date.now());
+    var d = Math.floor(t/864e5), h = Math.floor(t/36e5)%24, m = Math.floor(t/6e4)%60, s = Math.floor(t/1e3)%60;
+    document.getElementById('d').textContent = d;
+    document.getElementById('h').textContent = pad(h);
+    document.getElementById('m').textContent = pad(m);
+    document.getElementById('s').textContent = pad(s);
+  }
+  if (Date.now() >= end) {
+    // Promoção encerrada: links vão para o checkout sem cupom e os textos do desconto somem.
+    document.querySelectorAll('a.cta').forEach(function(a){
+      a.href = 'https://pay.hotmart.com/D108576979A';
+      a.firstChild.textContent = 'QUERO O MÉTODO ';
+      var sm = a.querySelector('small'); if (sm) sm.textContent = 'acesso imediato · garantia de 7 dias';
+    });
+    document.querySelectorAll('.bar,.count,.count-label,.coupon,.old').forEach(function(e){ e.style.display = 'none'; });
+    document.querySelectorAll('.price-line').forEach(function(e){ e.textContent = 'R$ 97,00 à vista ou em até 12x'; });
+    document.querySelector('.offer .new').textContent = 'R$ 97,00';
+    document.querySelector('.offer .parc').textContent = 'à vista, ou em até 12x';
+    document.querySelector('.sticky .p').innerHTML = 'Método 5 Segundos<br><b>R$ 97,00</b>';
+    return;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
